@@ -1,0 +1,8 @@
+who are you=I'm, Conver, your personal conversation robe ot!
+hello=Hey (master), Howwer you?
+i'm good thanks=Glad to hear. How can-i assist or converse with you?
+thanks=Your welcome (master)
+what's up=Well, (master) the sky I guess
+turn off=(exit)
+shutdown=(exit)
+raise the roof=(play favorite song)
