@@ -1,4 +1,4 @@
- # Introducing Conver
+# Introducing Conver
 Conver is an open source personal/home assistant project built entirely in [Python](https://github.com/python/cpython). It uses [Google Speech To Text](https://pypi.python.org/pypi/SpeechRecognition) along with [Google's Text To Speech](https://pypi.python.org/pypi/gTTS) functionality to put together this work in progress productivity tool. Conver is extremly useful and has a variety of cool things it can do which you can find here, in the [Features](https://github.com/Codiscite/Conver/blob/master/README.md#features) section.
 
 ## Features
@@ -35,5 +35,6 @@ Steps may be a bit different depending on your operating system but hopefully ev
 We hope Conver will be liked and be sure to fork us if you want to help support the development of Conver!
 
 Cheers! :smiley:
-License: [Apache Licence](https://github.com/Codiscite/Conver/blob/master/LICENSE)
+
 Copyright © 2017 Spike Corronell
+License: [Apache Licence](https://github.com/Codiscite/Conver/blob/master/LICENSE)
