@@ -37,6 +37,5 @@ We hope Conver will be liked and be sure to fork us if you want to help support 
 Cheers! :smiley:
 
 [Code of Conduct](https://github.com/Codiscite/Conver/blob/master/CODE_OF_CONDUCT.md) - 
-[Licence](https://github.com/Codiscite/Conver/blob/master/LICENSE)
-
+[Licence](https://github.com/Codiscite/Conver/blob/master/LICENSE)                                                                
 Copyright © 2017 Spike Corronell
