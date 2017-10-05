@@ -36,4 +36,5 @@ We hope Conver will be liked and be sure to fork us if you want to help support 
 
 Cheers! :smiley:
 
+License: [Apache Licence](https://github.com/Codiscite/Conver/blob/master/LICENSE)
 Copyright © 2017 Spike Corronell
