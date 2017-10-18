@@ -16,6 +16,7 @@ Built by [Spike Corronell](https://github.com/SpikeTheKing), Conver is a great t
 - Simple Interface for Users to Create their own Commands - [Tkinter](https://wiki.python.org/moin/TkInter)
 - Note Taking
 - Setting Name Conver Calls You
+- Searching and Summarizing Wikipedia - [Wikipedia Python Module](https://pypi.python.org/pypi/wikipedia)
 
 And their is much more to come! Here are just a few of the features, we plan to add:
 - [ ] Backing Up Files
