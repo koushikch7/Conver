@@ -2,14 +2,14 @@
 from google import search;
 from bs4 import BeautifulSoup;
 import speech_recognition as sr;
-import os, requests, re, pyglet.media, sys, webbrowser, datetime, threading, time, urllib.parse, urllib.request;
+import wikipedia, os, requests, re, pyglet.media, sys, webbrowser, datetime, threading, time, urllib.parse, urllib.request;
 from nltk.corpus import wordnet;
 from pyglet.gl import *;
 from gtts import gTTS;
 
 data_txt_file = "ConverData.txt";
 commands_file = "Commands.txt";
-notes_file = "Notes.txt"
+notes_file = "Notes.csv";
 
 today = datetime.datetime.now().strftime("%m/%d/%y %I:%M%p");
 
@@ -18,15 +18,31 @@ def getStocks(stockSymbol):
     searchSite = requests.get(url).text;
     searchSoup = BeautifulSoup(searchSite, 'html.parser');
     price = searchSoup.find("span", attrs={"data-reactid": "35"});
+    print(price)
     price = price.contents[1];
 
     change = searchSoup.find("span", attrs={"data-reactid": "37"});
+    print("|" + change + "|")
     change = change.contents[1];
-
+    change = change[:change.find(" (")];
+    
     items = [];
     items.append(price);
     items.append(change);
     return items;
+
+def searchWikipedia(searchText):
+    searchResults = wikipedia.search(searchText);
+
+    if(len(searchResults) > 0):
+        try:
+            summary = wikipedia.summary(searchResults[0], sentences=1);
+        except Exception as e:
+            return "Sorry, but you might have to be a bit more specific.";
+
+        return "Alright " + getData("master") + ", " + summary;
+    else:
+        return "Sorry, but I can't find anything on Wikipedia fer that.";
 
 def searchGoogle(searchText, links):
     iterationTimes = 0;
@@ -245,30 +261,27 @@ def note(action, title, info):
     if(action == "take"):
         notes = open(notes_file, "a");
         if(info != ""):
-            notes.write(today + " " + title + " ~ " + info + "\n");
+            notes.write(today + "," + title + "," + info + "\n");
+            notes.close();
             return "Note Saved!";
 
-    elif(action == "read"):
-        noteDateArray = [];
-        noteTitleArray = [];
-        noteContentArray = [];
-        noteString = "";
+    elif(action[:4] == "read"):
+        dates = [];
+        titles = [];
+        noteFiles = [];
 
         notes = open(notes_file, "r");
-        for line in notes:
-            newLine = line[17:]
-            noteDateArray.append(line[:17]);
-            noteString = noteString + line[:17] + "\n" + line[17:] + "\n";
+        lines = notes.readlines();
+        notes.close();
 
-            for character in newLine:
-                if(character == "~"):
-                    noteTitleArray.append(newLine[:newLine.find("~") - 1]);
-                    noteContentArray.append(newLine[newLine.find("~") + 2:]);
+        for line in range(0, len(lines)):
+            splitData = fileLines[line].split(",");
 
-        if(title != ""):
-            print(noteDateArray[title] + "\n" + noteTitleArray[title] + " ~ " + noteContentArray[title]);
-        else:
-            print(noteString);
+            dates.append(splitData[0].strip());
+            titles.append(splitData[1].strip());
+            noteFiles.append(splitData[2].strip());
+
+        return dates, titles, noteFiles;
 
 def findall(string, sub, listindex=[], offset=0):
     i = string.find(sub, offset)
@@ -277,7 +290,7 @@ def findall(string, sub, listindex=[], offset=0):
         i = string.find(sub, i + 1)
     return listindex
 
-def listen():
+def listen(message):
     # Play Ding
     pyglet.options['audio'] = ('openal', 'directsound', 'silent')
 
@@ -294,7 +307,7 @@ def listen():
     r = sr.Recognizer()
 
     with sr.Microphone() as source:
-        print("\nSay something!")
+        print(message)
         audio = r.listen(source)
 
     # try:
@@ -304,27 +317,41 @@ def listen():
     #     exit();
 
     print(recAudio);
+    return recAudio;
+
+def main():
+    recAudio = listen("\nSay Something!");
     audioCom = getCommand(recAudio);
     print(audioCom);
     
     # Commands
     if(audioCom != ""):
         say(getCommand(audioCom));
-        listen();
+        main();
+
+    elif(recAudio[:11] == "take a note"):
+        say("What would you like the title to be? ");
+        title = listen("");
+
+        say("Alright, you may now read aloud you note!");
+        info = listen("");
+
+        say(note("take", title, info));
+        main();
 
     elif(recAudio[:11] == "stocks for "):
         results = getStocks(recAudio[11:]);
         results[1] = results[1].replace("-", "negative ")
         say("The current price is " + results[0]);
         say("and it changed by " + results[1] + " today.")
-        listen();
+        main();
 
     elif(recAudio.find("call me ") != -1):
         master = recAudio.split("call me ");
         master = master[len(master) - 1];
         sendData("master", master);
         say("Alright " + str(master));
-        listen();
+        main();
     
     elif(recAudio[:8] == "weather "):
         result = recAudio.replace("what's the ","");
@@ -338,7 +365,7 @@ def listen():
         city.replace(" ", "_");
 
         say("The average temperature today in " + city + " is: " + weather(city, country, "AF_Temp") + " degrees Fahrenheit and the weather was " + weather(city, country, "Conditions"))
-        listen();
+        main();
 
     elif(recAudio[:5] == "play "):
         play(recAudio.replace(recAudio[:5], ""));
@@ -353,6 +380,10 @@ def listen():
         # audioComTwo = getCommand(recAudioTwo);
         # print(audioComTwo);
 
+    elif(recAudio[:14] == "tell me about "):
+        say(searchWikipedia(recAudio[14:]));
+        main();
+
     elif(recAudio[:10] == "translate " and recAudio[:10] != "translate file "):
         newAudio = recAudio[10:];
         places = list(re.finditer(" to ", newAudio));
@@ -362,18 +393,19 @@ def listen():
 
         finalAudioStr = newAudio[:len(newAudio) - (4 + len(language))];
         print(translate(finalAudioStr, "auto", language));
+        say(translate(finalAudioStr, "auto", language));
 
-        listen();
+        main();
 
     elif(recAudio[:9] == "download "):
         downloadVid(recAudio.replace(recAudio[:9], ""));
         say(recAudio.replace(recAudio[:9], "") + " finished downloading.");
-        listen();
+        main();
 
     elif(recAudio[:10] == "calculate "):
         calculate(recAudio.replace(recAudio[:10], ""));
         say(recAudio.replace(recAudio[:10], "") + " equals " + calculate(recAudio.replace(recAudio[:10], "")));
-        listen();
+        main();
 
     elif(recAudio[:12] == "my favorite "):
         result = recAudio.replace(recAudio[:12], "");
@@ -383,7 +415,7 @@ def listen():
         data = result[isPos + 4:];
 
         sendData(container, data);
-        listen();
+        main();
 
     elif(recAudio[:16] == "set a timer for "):
         newAudio = recAudio.replace(recAudio[:16], "");
@@ -391,14 +423,15 @@ def listen():
 
         thread = threading.Thread(target=timer, args=(int(newAudio), 0, 0))
         say("Timer set for " + recAudio.replace(recAudio[:16], ""));
+        main();
 
     else:
         say("Sorry, I don't understand.");
-        listen(); 
+        main(); 
 
 # Make the 'master' object default to 'creator':
 if(getData("master") == ""):
     sendData("master", "creator");
 
 #Start
-listen();
+main();
