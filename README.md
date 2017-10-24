@@ -24,7 +24,7 @@ And their is much more to come! Here are just a few of the features, we plan to 
 - [ ] Hand-free Calling
 - [ ] (Work In Progress) Voice Emailing- [SMTP Servers](http://computer.howstuffworks.com/e-mail-messaging/email3.htm)
 
-## Usage
+## Setup
 To setup Conver:
   1. Install the Latest Version of [Python](https://www.python.org/)
   2. Download the [Files for Conver](https://github.com/Codiscite/Conver)
