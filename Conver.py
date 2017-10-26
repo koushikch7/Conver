@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-from google import search;
-from bs4 import BeautifulSoup;
 import speech_recognition as sr;
 import wikipedia, os, requests, re, pyglet.media, sys, webbrowser, datetime, threading, time, urllib.parse, urllib.request;
+from google import search;
+from bs4 import BeautifulSoup;
+from pushbullet import Pushbullet;
 from nltk.corpus import wordnet;
 from pyglet.gl import *;
 from gtts import gTTS;
@@ -10,8 +11,13 @@ from gtts import gTTS;
 data_txt_file = "ConverData.txt";
 commands_file = "Commands.txt";
 notes_file = "Notes.csv";
+contacts_file = "Contacts.csv";
 
 today = datetime.datetime.now().strftime("%m/%d/%y %I:%M%p");
+
+def text(reciever, message):
+    device = pb.devices[0];
+    push = pb.push_sms(device, reciever, message);
 
 def getStocks(stockSymbol):
     url = "https://finance.yahoo.com/quote/" + stockSymbol;
@@ -326,7 +332,33 @@ def main():
     
     # Commands
     if(audioCom != ""):
-        say(getCommand(audioCom));
+        say(audioCom);
+        main();
+
+    elif(recAudio[:5] == "text "):
+        recAudio = recAudio[5:];
+        spaces = findall(recAudio, " ");
+        contact = recAudio[:spaces[0]];
+        message = recAudio[len(contact) + 1:];
+
+        contacts = open(contacts_file, "r");
+        contacts = contacts.readlines();
+
+        number = "nothing";
+
+        for line in range(0, len(contacts)):
+            splitData = contacts[line].split(",");
+
+            if(splitData[0].strip() == contact):
+                number = splitData[1].strip();
+                text(number, message);
+                break
+
+        if(number != "nothing"):
+            say("Message Sent!");
+        else:
+            say("Sorry, but there was an error sending that message.")
+
         main();
 
     elif(recAudio[:11] == "take a note"):
@@ -428,6 +460,9 @@ def main():
     else:
         say("Sorry, I don't understand.");
         main(); 
+
+# Setup Pushbullet API Integration for Voice Texting:
+pb = Pushbullet(getData("pushbullet_API_Key"));
 
 # Make the 'master' object default to 'creator':
 if(getData("master") == ""):
