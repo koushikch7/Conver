@@ -26,26 +26,11 @@ And their is much more to come! Here are just a few of the features, we plan to 
 
 ## Setup
 To setup Conver:
-  1. Install the Latest Version of [Python](https://www.python.org/).
-  2. Download the [Files for Conver](https://github.com/Codiscite/Conver).
-  3. Run [setup.py](https://github.com/Codiscite/Conver/blob/master/setup.py).
+  1. Install the Latest Version of [Python](https://www.python.org/)
+  2. Download the [Files for Conver](https://github.com/Codiscite/Conver)
+  3. Run [setup.py](https://github.com/Codiscite/Conver/blob/master/setup.py)
 
 Steps may be a bit different depending on your operating system but hopefully everything should work the same way. If their are any issues, be sure to contact me via my [email](mailto:spiketheking2@gmail.com).
-
-## Voice Texting
-Voice Texting is the newest feature of Conver. It adds the ability to message a contact hands-free and even when your phone isn't close by! It uses the awesome functionality of [Pushbullet](https://www.pushbullet.com/), a service built by a team of superheroes in San Francisco that allows SMS messaging and text management from a computer! 
-
-Setting up Voice Texting:
-  1. Create a [Pushbullet](https://www.pushbullet.com/) Account.
-  2. Download and Setup [Pushbullet on Your Phone](https://play.google.com/store/apps/details?id=com.pushbullet.android)!
-  3. Change the Text After "|pushbullet_API_Key|=" in [ConverData.txt](https://github.com/Codiscite/Conver/blob/master/ConverData.txt) to be your [Pushbullet API Key](https://www.pushbullet.com/#settings/account)(Scroll down to 'Access Tokens').
-  
-And there you are. Voice Texting is super simple to setup and works like a charm! Try it out by saying something like:
-"text (contact) Hey Bro!"
-or
-"conver, text (contact) I'm on my way home."
-
-Currently Voice Texting is only compatible with contacts in the [Contacts.csv](https://github.com/Codiscite/Conver/blob/master/Contacts.csv) file but can be easily added in the format of: "{contact name}, {conact number}".
 
 ## About
 We hope Conver will be liked and be sure to fork us if you want to help support the development of Conver!
