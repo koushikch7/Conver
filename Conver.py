@@ -69,14 +69,9 @@ def define(word):
         partOfSpeech = synset.lexname()
         partOfSpeech = partOfSpeech[:partOfSpeech.find(".")];
 
-        print("-" * 10);
-        # print("Name:", str(synset.name()));
-        print("Part of Speech:", partOfSpeech);
-        # print("Lemmas:", str(synset.lemma_names()));
-        print("Definition:", synset.definition());
-        print("-" * 10);
+        return word, partOfSpeech, synset.definition();
     else:
-        print("Sorry, I can't find a definition for that.")
+        return "Sorry, I can't find a definition for that.";
 
 def timer(secLength, minLength, hourLength):
     # Loop until we reach 20 minutes running
@@ -429,18 +424,31 @@ def main():
 
         main();
 
+    elif(recAudio[:7] == "define "):
+        theWord = recAudio[7:];
+
+        if(define(theWord) != "Sorry, I can't find a definition for that."):
+            say(define(theWord)[0]);
+            time.sleep(0.2);
+            say(define(theWord)[1]);
+            time.sleep(0.2);
+            say(define(theWord)[2]);
+        else:
+            say(define(theWord));
+
+        main();
+
     elif(recAudio[:9] == "download "):
-        downloadVid(recAudio.replace(recAudio[:9], ""));
-        say(recAudio.replace(recAudio[:9], "") + " finished downloading.");
+        downloadVid(recAudio[9:]);
+        say(recAudio[9:] + " finished downloading.");
         main();
 
     elif(recAudio[:10] == "calculate "):
-        calculate(recAudio.replace(recAudio[:10], ""));
-        say(recAudio.replace(recAudio[:10], "") + " equals " + calculate(recAudio.replace(recAudio[:10], "")));
+        say(recAudio.replace(recAudio[:10], "") + " equals " + calculate(recAudio[10:]));
         main();
 
     elif(recAudio[:12] == "my favorite "):
-        result = recAudio.replace(recAudio[:12], "");
+        result = recAudio[12:];
 
         isPos = result.find("is") - 1;
         container = result[:isPos];
@@ -450,7 +458,7 @@ def main():
         main();
 
     elif(recAudio[:16] == "set a timer for "):
-        newAudio = recAudio.replace(recAudio[:16], "");
+        newAudio = recAudio[16:];
         newAudio = newAudio.replace(" seconds", "");
 
         thread = threading.Thread(target=timer, args=(int(newAudio), 0, 0))
