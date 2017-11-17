@@ -6,7 +6,7 @@ commands_file = "Commands.txt";
 
 # Open Forum Function
 def openForum():
-    webbrowser.open('http://example.com');
+    webbrowser.open('https://github.com/Codiscite/Conver');
     
 # Add Command Function
 def addCommand():
