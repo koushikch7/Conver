@@ -1,0 +1,11 @@
+{
+  "name": "Conver",
+  "description": "Open source home automation and personal assistant project, completely built in Python. ",
+  "version": "0.2.4",
+  "dependencies": {
+    "https://pypi.python.org/pypi/gTTS": "1.2.2",
+    "https://pypi.python.org/pypi/SpeechRecognition": "3.7.1",
+    "https://pypi.python.org/pypi/pyglet/1.3.0": "1.3.0",
+    "": ""
+  }
+}
