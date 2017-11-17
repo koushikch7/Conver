@@ -33,7 +33,7 @@ To setup Conver:
 Steps may be a bit different depending on your operating system but hopefully everything should work the same way. If their are any issues, be sure to contact me via my [email](mailto:spiketheking2@gmail.com).
 
 ## Voice Texting
-Voice Texting is the newest feature of Conver. It adds the ability to message a contact hands-free and even when your phone isn't close by! It uses the awesome functionality of [Pushbullet](https://www.pushbullet.com/), a service built by a team of superheroes in San Francisco that allows SMS messaging and text management from a computer!
+Voice Texting is a new feature of Conver. It adds the ability to message a contact hands-free and even when your phone isn't close by! It uses the awesome functionality of [Pushbullet](https://www.pushbullet.com/), a service built by a team of superheroes in San Francisco that allows SMS messaging and text management from a computer!
 
 Setting up Voice Texting:
   1. Create a [Pushbullet](https://www.pushbullet.com/) Account.
