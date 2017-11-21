@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import speech_recognition as sr;
-import wikipedia, os, requests, re, pyglet.media, sys, webbrowser, datetime, threading, time, urllib.parse, urllib.request;
+import wikipedia, os, requests, re, pyglet.media, sys, webbrowser, datetime, threading, time
+import urllib.parse, urllib.request;
 from google import search;
 from bs4 import BeautifulSoup;
 from pushbullet import Pushbullet;
@@ -14,6 +15,14 @@ notes_file = "Notes.csv";
 contacts_file = "Contacts.csv";
 
 today = datetime.datetime.now().strftime("%m/%d/%y %I:%M%p");
+
+def spell(word):
+    result = "";
+
+    for letter in word:
+        result += letter + ".";
+
+    say("%s is spelled %s." % (word, result))
 
 def text(reciever, message):
     device = pb.devices[0];
@@ -330,6 +339,11 @@ def main():
         say(audioCom);
         main();
 
+    elif(recAudio[:6] == "spell "):
+        recAudio = recAudio[6:];
+        spell(recAudio);
+        main();
+
     elif(recAudio[:5] == "text "):
         recAudio = recAudio[5:];
         spaces = findall(recAudio, " ");
@@ -476,5 +490,5 @@ pb = Pushbullet(getData("pushbullet_API_Key"));
 if(getData("master") == ""):
     sendData("master", "creator");
 
-#Start
+# Start
 main();
