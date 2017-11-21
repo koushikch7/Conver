@@ -17,6 +17,7 @@ Built by [Spike Corronell](https://github.com/SpikeTheKing), Conver is a great t
 - Note Taking
 - Setting Name Conver Calls You
 - Searching and Summarizing Wikipedia - [Wikipedia Python Module](https://pypi.python.org/pypi/wikipedia)
+- Can Spell Out Words
 
 And their is much more to come! Here are just a few of the features, we plan to add:
 - [ ] Backing Up Files
